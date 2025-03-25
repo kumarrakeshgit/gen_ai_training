@@ -1,11 +1,14 @@
 package com.epam.training.gen.ai.configuration;
 
 import com.azure.ai.openai.OpenAIAsyncClient;
+import com.epam.training.gen.ai.constants.ModelService;
+import com.epam.training.gen.ai.constants.OpenAiModel;
 import com.microsoft.semantickernel.Kernel;
 import com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatCompletion;
 import com.microsoft.semantickernel.orchestration.InvocationContext;
 import com.microsoft.semantickernel.orchestration.PromptExecutionSettings;
 import com.microsoft.semantickernel.services.chatcompletion.ChatCompletionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +26,8 @@ import java.util.Map;
 @Configuration
 public class SemanticKernelConfiguration {
 
-    @Value("${client-openai-deployment-name}")
-    private String DEPLOYMENT_OR_MODEL_NAME;
+    @Autowired
+    private ModelService modelService;
 
     /**
      * Creates a {@link ChatCompletionService} bean for handling chat completions using Azure OpenAI.
@@ -35,7 +38,7 @@ public class SemanticKernelConfiguration {
     @Bean
     public ChatCompletionService chatCompletionService(OpenAIAsyncClient openAIAsyncClient) {
         return OpenAIChatCompletion.builder()
-                .withModelId(DEPLOYMENT_OR_MODEL_NAME)
+                .withModelId(modelService.selectModel(OpenAiModel.CHAT_COMPL_GPT_35))
                 .withOpenAIAsyncClient(openAIAsyncClient)
                 .build();
     }
@@ -74,7 +77,7 @@ public class SemanticKernelConfiguration {
      */
     @Bean
     public Map<String, PromptExecutionSettings> promptExecutionsSettingsMap() {
-        return Map.of(DEPLOYMENT_OR_MODEL_NAME, PromptExecutionSettings.builder()
+        return Map.of(modelService.selectModel(OpenAiModel.CHAT_COMPL_GPT_35), PromptExecutionSettings.builder()
                 .withTemperature(1.0)
                 .build());
     }
