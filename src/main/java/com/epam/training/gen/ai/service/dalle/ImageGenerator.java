@@ -33,13 +33,13 @@ public class ImageGenerator {
     public String generateImage(String prompt) throws IOException, InterruptedException {
         var requestBody = new HashMap<>();
         requestBody.put("messages", new Object[]{Map.of("role", "user", "content", prompt)});
-        requestBody.put("size", "1024x1024");
+        requestBody.put("max_tokens", 1000);
 
         var requestJson = objectMapper.writeValueAsString(requestBody);
 
         String model = modelService.selectModel(OpenAiModel.IMAGE_GEN_DALL_E);
         var request = HttpRequest.newBuilder()
-                .uri(URI.create("https://ai-proxy.lab.epam.com/openai/deployments/"+model+"/images/generations"))
+                .uri(URI.create("https://ai-proxy.lab.epam.com/openai/deployments/"+model))
                 .header("Content-Type", "application/json")
                 .header("Api-Key", API_KEY)
                 .POST(HttpRequest.BodyPublishers.ofString(requestJson))
