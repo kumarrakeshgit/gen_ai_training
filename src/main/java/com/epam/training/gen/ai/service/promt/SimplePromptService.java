@@ -3,6 +3,8 @@ package com.epam.training.gen.ai.service.promt;
 import com.azure.ai.openai.OpenAIAsyncClient;
 import com.azure.ai.openai.models.ChatCompletionsOptions;
 import com.azure.ai.openai.models.ChatRequestUserMessage;
+import com.epam.training.gen.ai.constants.ModelService;
+import com.epam.training.gen.ai.constants.OpenAiModel;
 import com.microsoft.semantickernel.Kernel;
 import com.microsoft.semantickernel.orchestration.InvocationContext;
 import com.microsoft.semantickernel.services.chatcompletion.ChatCompletionService;
@@ -26,8 +28,8 @@ import java.util.List;
 @Service
 public class SimplePromptService {
 
-    @Value("${client-openai-deployment-name}")
-    private String DEPLOYMENT_OR_MODEL_NAME;
+    @Autowired
+    private ModelService modelService;
 
     @Autowired
     OpenAIAsyncClient openAIAsyncClient;
@@ -46,7 +48,7 @@ public class SimplePromptService {
         ChatRequestUserMessage chatRequestUserMessage = new ChatRequestUserMessage(chatInput);
         ChatCompletionsOptions chatCompletionsOptions = new ChatCompletionsOptions(List.of(chatRequestUserMessage));
         var completions = openAIAsyncClient
-                .getChatCompletions(DEPLOYMENT_OR_MODEL_NAME, chatCompletionsOptions)
+                .getChatCompletions(modelService.selectModel(OpenAiModel.CHAT_COMPL_GPT_35), chatCompletionsOptions)
                 .block();
         return completions != null ? completions.getChoices().stream()
                 .map(c -> c.getMessage().getContent())
