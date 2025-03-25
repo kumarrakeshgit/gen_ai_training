@@ -29,6 +29,9 @@ public class SemanticKernelConfiguration {
     @Autowired
     private ModelService modelService;
 
+    @Value("${temperature}")
+    private String temperature;
+
     /**
      * Creates a {@link ChatCompletionService} bean for handling chat completions using Azure OpenAI.
      *
@@ -64,9 +67,7 @@ public class SemanticKernelConfiguration {
     @Bean
     public InvocationContext invocationContext() {
         return InvocationContext.builder()
-                .withPromptExecutionSettings(PromptExecutionSettings.builder()
-                        .withTemperature(1.0)
-                        .build())
+                .withPromptExecutionSettings(promptExecutionsSettingsMap().get(modelService.selectModel(OpenAiModel.CHAT_COMPL_GPT_35)))
                 .build();
     }
 
@@ -78,7 +79,7 @@ public class SemanticKernelConfiguration {
     @Bean
     public Map<String, PromptExecutionSettings> promptExecutionsSettingsMap() {
         return Map.of(modelService.selectModel(OpenAiModel.CHAT_COMPL_GPT_35), PromptExecutionSettings.builder()
-                .withTemperature(1.0)
+                .withTemperature(Double.parseDouble(temperature))
                 .build());
     }
 }

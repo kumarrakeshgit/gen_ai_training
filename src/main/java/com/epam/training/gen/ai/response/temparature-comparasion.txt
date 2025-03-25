@@ -1,0 +1,52 @@
+Model:gpt-35-turbo
+Temperature:1.0
+prompt: "how to prepare tea?"
+
+result:
+[To prepare tea, follow these steps:
+
+1. Boil water in a kettle or pot.
+2. Place your choice of tea leaves or tea bags in a teapot.
+3. Pour the hot water over the tea leaves or tea bags in the teapot.
+4. Let the tea steep for 2-5 minutes, depending on your preference for strength.
+5. Remove the tea leaves or tea bags from the teapot.
+6. Pour the tea into a cup.
+7. Add any desired sweeteners or milk.
+8. Stir and enjoy your freshly brewed tea.
+
+===========================
+Model:gpt-35-turbo
+Temperature:10
+prompt: "how to prepare tea?"
+
+result:
+There are many different ways to prepare tea, depending on the type of tea and your personal preferences. However, here is a basic guide on how to prepare a simple cup of tea:
+
+1. Start by boiling water in a kettle. The temperature of the water will vary depending on the type of tea you are using (see below for specific recommendations).
+
+2. While the water is boiling, place a tea bag or loose tea leaves in a teapot or mug. If using loose tea leaves, you may want to use a tea infuser to contain the leaves.
+
+3. Once the water reaches the desired temperature, pour it over the tea bag or leaves in the teapot or mug.
+
+4. Let the tea steep for the recommended amount of time. This will vary depending on the type of tea and your personal taste preferences. Generally, black teas should steep for 3-5 minutes, green teas for 2-3 minutes, and herbal teas for 5-7 minutes.
+
+5. Remove the tea bag or infuser from the teapot or mug.
+
+6. Add any desired sweeteners or milk to the tea, if desired.
+
+7. Stir the tea and enjoy!
+
+Specific recommendations for water temperature based on tea type:
+
+- Black tea: 200°F (boiling water)
+- Green tea: 175-190°F (let boiling water cool for a few minutes before pouring over tea)
+- White tea: 160-180°F (let boiling water cool for a few minutes before pouring over tea)
+- Oolong tea: 185-205°F (boiling water)
+- Herbal tea: 212°F (boiling water)
+
+Remember that these are general guidelines and you may need to adjust based on personal preference. Enjoy your tea!
+
+
+conclusion:
+when temperature property is configured low then response is more specific otherwise it is much details and unrelated sometime.
+
