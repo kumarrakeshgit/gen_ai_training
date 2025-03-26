@@ -1,5 +1,5 @@
 package com.epam.training.gen.ai.constants;
 
 public enum OpenAiModel {
-    IMAGE_GEN_DALL_E, CHAT_COMPL_GPT_35, CHAT_COMPT_MIXTRAL_INSTRUCT, CHAT_COMPL_GPT_4;
+    DALL_E_3, GPT_35_TURBO, MIXTRAL_8X7B_INSTRUCT_V0_1, GPT_4_TURBO;
 }

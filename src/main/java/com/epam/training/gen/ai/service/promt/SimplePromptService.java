@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.epam.training.gen.ai.constants.ModelService.getModelNameEnum;
+
 /**
  * Service class for generating chat completions using Azure OpenAI.
  * <p>
@@ -43,12 +45,15 @@ public class SimplePromptService {
     @Autowired
     InvocationContext invocationContext;
 
+    @Value("${client-openai-deployment-name}")
+    private String deployed_model;
+
 
     public List<String> getChatCompletions(String chatInput) {
         ChatRequestUserMessage chatRequestUserMessage = new ChatRequestUserMessage(chatInput);
         ChatCompletionsOptions chatCompletionsOptions = new ChatCompletionsOptions(List.of(chatRequestUserMessage));
         var completions = openAIAsyncClient
-                .getChatCompletions(modelService.selectModel(OpenAiModel.CHAT_COMPL_GPT_35), chatCompletionsOptions)
+                .getChatCompletions(modelService.selectModel(getModelNameEnum(deployed_model)), chatCompletionsOptions)
                 .block();
         return completions != null ? completions.getChoices().stream()
                 .map(c -> c.getMessage().getContent())

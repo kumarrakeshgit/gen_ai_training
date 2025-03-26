@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ModelService {
 
-    @Value("${model-deployment-gpt-35-turbo}")
+    @Value("${client-openai-deployment-name}")
     private String model_deployment_gpt_35_turbo;
     @Value("${model-deployment-gpt-4-turbo}")
     private String model_deployment_gpt_4_turbo;
@@ -18,10 +18,14 @@ public class ModelService {
 
     public String selectModel(OpenAiModel service) {
         return switch (service) {
-            case IMAGE_GEN_DALL_E -> model_deployment_dall;
-            case CHAT_COMPL_GPT_35 -> model_deployment_gpt_35_turbo;
-            case CHAT_COMPT_MIXTRAL_INSTRUCT -> model_deployment_mixtral_instruct;
-            case CHAT_COMPL_GPT_4 -> model_deployment_gpt_4_turbo;
+            case DALL_E_3 -> model_deployment_dall;
+            case GPT_35_TURBO -> model_deployment_gpt_35_turbo;
+            case MIXTRAL_8X7B_INSTRUCT_V0_1 -> model_deployment_mixtral_instruct;
+            case GPT_4_TURBO -> model_deployment_gpt_4_turbo;
         };
+    }
+
+    public static OpenAiModel getModelNameEnum(String modelName){
+        return OpenAiModel.valueOf(modelName.toUpperCase().replace("-","_").replace(".","_"));
     }
 }

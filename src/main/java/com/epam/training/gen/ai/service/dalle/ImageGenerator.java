@@ -15,6 +15,8 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.epam.training.gen.ai.constants.ModelService.getModelNameEnum;
+
 @Service
 public class ImageGenerator {
 
@@ -24,6 +26,9 @@ public class ImageGenerator {
 
     @Value("${client-openai-key}")
     private String API_KEY;
+
+    @Value("${client-openai-deployment-name}")
+    private String deployed_model;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -37,7 +42,7 @@ public class ImageGenerator {
 
         var requestJson = objectMapper.writeValueAsString(requestBody);
 
-        String model = modelService.selectModel(OpenAiModel.IMAGE_GEN_DALL_E);
+        String model = modelService.selectModel(getModelNameEnum(deployed_model));
         var request = HttpRequest.newBuilder()
                 .uri(URI.create("https://ai-proxy.lab.epam.com/openai/deployments/"+model))
                 .header("Content-Type", "application/json")
