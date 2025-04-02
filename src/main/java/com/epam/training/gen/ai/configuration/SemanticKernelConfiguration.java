@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
+import static com.epam.training.gen.ai.constants.ModelService.getModelNameEnum;
+
 /**
  * Configuration class for setting up Semantic Kernel components.
  * <p>
@@ -29,6 +31,12 @@ public class SemanticKernelConfiguration {
     @Autowired
     private ModelService modelService;
 
+    @Value("${temperature}")
+    private String temperature;
+
+    @Value("${client-openai-deployment-name}")
+    private String deployed_model;
+
     /**
      * Creates a {@link ChatCompletionService} bean for handling chat completions using Azure OpenAI.
      *
@@ -38,7 +46,7 @@ public class SemanticKernelConfiguration {
     @Bean
     public ChatCompletionService chatCompletionService(OpenAIAsyncClient openAIAsyncClient) {
         return OpenAIChatCompletion.builder()
-                .withModelId(modelService.selectModel(OpenAiModel.CHAT_COMPL_GPT_35))
+                .withModelId(modelService.selectModel(getModelNameEnum(deployed_model)))
                 .withOpenAIAsyncClient(openAIAsyncClient)
                 .build();
     }
@@ -64,9 +72,7 @@ public class SemanticKernelConfiguration {
     @Bean
     public InvocationContext invocationContext() {
         return InvocationContext.builder()
-                .withPromptExecutionSettings(PromptExecutionSettings.builder()
-                        .withTemperature(1.0)
-                        .build())
+                .withPromptExecutionSettings(promptExecutionsSettingsMap().get(modelService.selectModel(getModelNameEnum(deployed_model))))
                 .build();
     }
 
@@ -77,8 +83,8 @@ public class SemanticKernelConfiguration {
      */
     @Bean
     public Map<String, PromptExecutionSettings> promptExecutionsSettingsMap() {
-        return Map.of(modelService.selectModel(OpenAiModel.CHAT_COMPL_GPT_35), PromptExecutionSettings.builder()
-                .withTemperature(1.0)
+        return Map.of(modelService.selectModel(getModelNameEnum(deployed_model)), PromptExecutionSettings.builder()
+                .withTemperature(Double.parseDouble(temperature))
                 .build());
     }
 }
