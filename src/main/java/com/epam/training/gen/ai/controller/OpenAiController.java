@@ -30,4 +30,15 @@ public class OpenAiController {
        return chatService.getChatCompletions(prompt).toString();
     }
 
+    /*
+    user prompt like below as we are using light Model
+    1. Turn on light 2
+    2. Please turn on the lamp
+    3. Turn on light 2 and light 3
+    */
+    @GetMapping("/chat/plugin")
+    public String chatHistory(@RequestParam String prompt){
+        return chatService.getChatHistory(prompt).toString();
+    }
+
 }
