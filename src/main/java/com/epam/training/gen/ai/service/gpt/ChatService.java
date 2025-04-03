@@ -43,4 +43,16 @@ public class ChatService {
         history.addAll(response);
         return response != null ? response.stream().map(ChatMessageContent::getContent).toList() : null;
     }
+
+    public List<String> getChatHistory(String prompt) {
+        ChatHistory history = new ChatHistory();
+        history.addUserMessage(prompt);
+
+        List<ChatMessageContent<?>> results = chatCompletionService
+                .getChatMessageContentsAsync(history, kernel, invocationContext)
+                .block();
+
+        System.out.println("Assistant > " + (results != null ? results.getFirst() : null));
+        return results != null ? results.stream().map(ChatMessageContent::getContent).toList() : null;
+    }
 }
