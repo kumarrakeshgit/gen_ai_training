@@ -3,12 +3,15 @@ package com.epam.training.gen.ai.controller;
 import com.epam.training.gen.ai.service.dalle.ImageGenerator;
 import com.epam.training.gen.ai.service.gpt.ChatService;
 import com.epam.training.gen.ai.vector.SimpleVectorActions;
+import com.google.protobuf.Descriptors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -65,6 +68,11 @@ public class OpenAiController {
     @GetMapping("/qdrant/collections")
     public ResponseEntity<List<String>> createCollection() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok().body(simpleVectorActions.listCollection());
+    }
+
+    @GetMapping("/qdrant/embedding")
+    public ResponseEntity<ArrayList<Float>> buildEmbedding(@RequestParam String text) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok().body(simpleVectorActions.processTextAndRetrieveVector(text));
     }
 
 }

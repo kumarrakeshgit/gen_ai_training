@@ -4,6 +4,7 @@ import com.azure.ai.openai.OpenAIAsyncClient;
 import com.azure.ai.openai.models.EmbeddingItem;
 import com.azure.ai.openai.models.Embeddings;
 import com.azure.ai.openai.models.EmbeddingsOptions;
+import com.google.protobuf.Descriptors;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.grpc.Collections;
 import io.qdrant.client.grpc.Collections.VectorParams;
@@ -168,4 +169,15 @@ public class SimpleVectorActions {
 
         return result;
     }
+
+    public ArrayList<Float> processTextAndRetrieveVector(String text) throws ExecutionException, InterruptedException {
+        var embeddings = retrieveEmbeddings(text);
+        var qe = new ArrayList<Float>();
+        embeddings.block().getData().forEach(embeddingItem ->
+                qe.addAll(embeddingItem.getEmbedding())
+        );
+        System.out.println("qe::_>>>>>>>>>>>>>>>>>"+qe);
+        return qe;
+    }
+
 }
