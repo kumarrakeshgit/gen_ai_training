@@ -42,6 +42,16 @@
             <artifactId>semantickernel-api</artifactId>
             <version>${kernel.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>listenablefuture</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qdrant</groupId>
+            <artifactId>client</artifactId>
+            <version>1.11.0</version>
+        </dependency>
         <!--<dependency>
             <groupId>com.microsoft.semantic-kernel</groupId>
             <artifactId>semantickernel-experimental</artifactId>
@@ -53,11 +63,7 @@
             <version>1.4.2</version>
             <type>pom</type>
         </dependency>
-        <dependency>
-            <groupId>io.qdrant</groupId>
-            <artifactId>client</artifactId>
-            <version>1.11.0</version>
-        </dependency>
+        -->
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
@@ -78,12 +84,12 @@
             <artifactId>protobuf-java</artifactId>
             <version>4.29.3</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.microsoft.semantic-kernel</groupId>
             <artifactId>semantickernel-settings-loader</artifactId>
             <version>0.2.13-alpha</version>
-        </dependency>-->
-        <!--<dependency>
+        </dependency>
+        <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-ai-openai</artifactId>
             <version>1.0.0-beta.11</version>
