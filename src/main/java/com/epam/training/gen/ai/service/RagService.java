@@ -4,8 +4,8 @@ import com.epam.training.gen.ai.constants.OpenAiModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.embedding.onnx.allminilml6v2.AllMiniLmL6V2EmbeddingModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.store.embedding.EmbeddingStore;
@@ -24,12 +24,13 @@ public class RagService {
 
   protected ContentRetriever getEmbeddingStoreContentRetriever() {
     EmbeddingStore<TextSegment> embeddingStore =
-        QdrantEmbeddingStore.builder()
-            .collectionName("world_history_collection")
-                .client(qdrantClient)
-            .build();
+            QdrantEmbeddingStore.builder()
+                    .collectionName("world_history_collection")
+                    .host("localhost")
+                    .port(6334)
+                    .build();
 
-    EmbeddingModel embeddingModel = OpenAiEmbeddingModel.builder().apiKey(API_KEY).build();
+    EmbeddingModel embeddingModel = new AllMiniLmL6V2EmbeddingModel();
 
     return EmbeddingStoreContentRetriever.builder()
         .embeddingStore(embeddingStore)

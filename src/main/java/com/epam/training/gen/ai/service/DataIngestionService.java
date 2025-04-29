@@ -7,7 +7,7 @@ import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
+import dev.langchain4j.model.embedding.onnx.allminilml6v2.AllMiniLmL6V2EmbeddingModel;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.qdrant.QdrantEmbeddingStore;
@@ -36,6 +36,7 @@ public class DataIngestionService {
   String API_KEY;
 
   public void setupRagChatbot() {
+    createCollection();
     insertDocuments();
   }
 
@@ -53,7 +54,7 @@ public class DataIngestionService {
   private void createCollection() {
     try {
       qdrantClient.createCollectionAsync("world_history_collection",
-              VectorParams.newBuilder().setDistance(Distance.Dot).setSize(1536)
+              VectorParams.newBuilder().setDistance(Distance.Dot).setSize(384)
                       .build()).get();
     } catch (InterruptedException | ExecutionException e) {
       throw new RuntimeException(e);
@@ -75,7 +76,8 @@ public class DataIngestionService {
   }
 
   private EmbeddingModel getEmbeddingModel() {
-    return OpenAiEmbeddingModel.builder().apiKey(API_KEY).build();
+    //return OpenAiEmbeddingModel.builder().apiKey(API_KEY).build();
+      return (EmbeddingModel) new AllMiniLmL6V2EmbeddingModel();
   }
 
   private EmbeddingStore<TextSegment> getEmbeddingStore() {
