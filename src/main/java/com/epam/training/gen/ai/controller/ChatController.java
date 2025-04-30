@@ -26,6 +26,14 @@ public class ChatController {
         return response;
     }
 
+    @PostMapping("/rag")
+    public ChatResponse processRagMsg(@RequestBody ChatRequest chatRequest) {
+        System.out.println(chatRequest.getUserMsg());
+        var aiMessage = chatService.retrieveAugment(chatRequest);
+        var response = ChatResponse.builder().aiMsg(aiMessage).build();
+        return response;
+    }
+
     @GetMapping
     public String welcome() {
         return "Welcome to Chat Bot";

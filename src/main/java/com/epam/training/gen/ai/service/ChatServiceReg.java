@@ -13,4 +13,9 @@ public class ChatServiceReg {
   public String rag(ChatRequest chatRequest) {
     return advancedRagService.generateAnswer(chatRequest);
   }
+
+  public String retrieveAugment(ChatRequest chatRequest) {
+    return advancedRagService.retrieveAnswer(chatRequest);
+  }
+
 }
